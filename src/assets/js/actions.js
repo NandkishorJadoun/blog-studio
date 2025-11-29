@@ -52,8 +52,36 @@ const logIn = async ({ request }) => {
   localStorage.setItem("token", json.token);
   localStorage.setItem("userid", user.id);
   localStorage.setItem("fullName", fullName);
-  
+
   return redirect("/");
 };
 
-export default { signUp, logIn };
+const createPost = async ({ request }) => {
+  const data = await request.formData();
+
+  const submission = {
+    title: data.get("title"),
+    content: data.get("content"),
+    status: data.get("visibility"),
+  };
+
+  const token = localStorage.getItem("token");
+
+  const response = await fetch("http://localhost:3000/api/v1/posts", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(submission),
+  });
+
+  if (!response.ok) {
+    const json = await response.json();
+    return json.errors;
+  }
+
+  return redirect("/");
+};
+
+export default { signUp, logIn, createPost };
