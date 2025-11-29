@@ -71,7 +71,7 @@ function SignUpPage() {
           />
         </p>
         <button className={styles.submitBtn}>Submit</button>
-        {errors && errors.length > 0 && (
+        {errors && (
           <ul className={styles.errList}>
             {errors.map((err) => (
               <li>{err.msg}</li>
