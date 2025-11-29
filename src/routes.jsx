@@ -20,6 +20,7 @@ const routes = [
       {
         path: "create",
         element: <CreatePost />,
+        action: actions.createPost,
       },
     ],
   },
