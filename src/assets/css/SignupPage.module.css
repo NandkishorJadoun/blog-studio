@@ -1,0 +1,45 @@
+.container {
+    composes: container from "./LoginPage.module.css"
+}
+
+.main {
+    composes: main from "./LoginPage.module.css"
+}
+
+.form {
+    composes: form from "./LoginPage.module.css"
+}
+
+.formSection {
+    composes: formSection from "./LoginPage.module.css"
+}
+
+.label {
+    composes: label from "./LoginPage.module.css"
+}
+
+.input {
+    composes: input from "./LoginPage.module.css"
+}
+
+.input:focus {
+    outline: none;
+    box-shadow: 0 0 5px #312c1c80;
+}
+
+.submitBtn {
+    composes: submitBtn from "./LoginPage.module.css"
+}
+
+.errList {
+    background-color: #ffeaea;
+    border: 1px solid #ffb3b3;
+    color: #d93025;
+    padding: .75rem 2rem;
+    border-radius: 8px;
+    font-size: .9rem
+}
+
+.loginLink{
+    text-align: center;
+}
