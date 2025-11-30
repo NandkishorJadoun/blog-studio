@@ -1,4 +1,4 @@
-import { Form, useActionData } from "react-router";
+import { Form, Navigate, useActionData } from "react-router";
 import { useRef } from "react";
 import { Editor } from "@tinymce/tinymce-react";
 
@@ -6,6 +6,10 @@ function CreatePost() {
   const errorData = useActionData();
   const editorRef = useRef(null);
   const contentRef = useRef(null);
+
+  if (!localStorage.getItem("token")) {
+    return <Navigate to={"/login"} />;
+  }
 
   return (
     <main>
