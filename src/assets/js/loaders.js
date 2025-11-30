@@ -1,6 +1,6 @@
 import { redirect } from "react-router";
 
-const posts = async () => {
+const loadAuthorPosts = async () => {
   const token = localStorage.getItem("token");
 
   if (!token) {
@@ -22,4 +22,20 @@ const posts = async () => {
   return { publicPosts, privatePostsPromise };
 };
 
-export default { posts };
+const loadPostById = async ({ params }) => {
+  const token = localStorage.getItem("token");
+  
+  if (!token) {
+    throw redirect("/login");
+  }
+
+  const { postId } = params;
+  const postResponse = await fetch(
+    `http://localhost:3000/api/v1/posts/${postId}`
+  );
+
+  const data = await postResponse.json();
+  return data;
+};
+
+export { loadAuthorPosts, loadPostById };

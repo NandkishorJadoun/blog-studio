@@ -3,8 +3,16 @@ import LogInPage from "./components/LoginPage";
 import SignUpPage from "./components/SignupPage";
 import HomePage from "./components/HomePage";
 import CreatePost from "./components/CreatePost";
-import actions from "./assets/js/actions";
-import loaders from "./assets/js/loaders";
+import EditPost from "./components/EditPost";
+import {
+  signUpAction,
+  logInAction,
+  createPostAction,
+  editPostAction,
+} from "./assets/js/actions";
+import { loadAuthorPosts, loadPostById } from "./assets/js/loaders";
+
+import EditPostLoadError from "./components/EditPostLoadError";
 
 const routes = [
   {
@@ -15,24 +23,31 @@ const routes = [
       {
         index: true,
         element: <HomePage />,
-        loader: loaders.posts,
+        loader: loadAuthorPosts,
       },
       {
         path: "create",
         element: <CreatePost />,
-        action: actions.createPost,
+        action: createPostAction,
+      },
+      {
+        path: "posts/:postId/edit",
+        element: <EditPost />,
+        errorElement: <EditPostLoadError/>,
+        loader: loadPostById,
+        action: editPostAction,
       },
     ],
   },
   {
     path: "/signup",
     element: <SignUpPage />,
-    action: actions.signUp,
+    action: signUpAction,
   },
   {
     path: "/login",
     element: <LogInPage />,
-    action: actions.logIn,
+    action: logInAction,
   },
 ];
 

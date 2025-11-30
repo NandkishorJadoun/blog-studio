@@ -1,6 +1,6 @@
 import { redirect } from "react-router";
 
-const signUp = async ({ request }) => {
+const signUpAction = async ({ request }) => {
   const data = await request.formData();
 
   const submission = {
@@ -25,7 +25,7 @@ const signUp = async ({ request }) => {
   return redirect("/login");
 };
 
-const logIn = async ({ request }) => {
+const logInAction = async ({ request }) => {
   const data = await request.formData();
 
   const submission = {
@@ -56,16 +56,14 @@ const logIn = async ({ request }) => {
   return redirect("/");
 };
 
-const createPost = async ({ request }) => {
+const createPostAction = async ({ request }) => {
+  const token = localStorage.getItem("token");
   const data = await request.formData();
-
   const submission = {
     title: data.get("title"),
     content: data.get("content"),
     status: data.get("visibility"),
   };
-
-  const token = localStorage.getItem("token");
 
   const response = await fetch("http://localhost:3000/api/v1/posts", {
     method: "POST",
@@ -84,4 +82,35 @@ const createPost = async ({ request }) => {
   return redirect("/");
 };
 
-export default { signUp, logIn, createPost };
+const editPostAction = async ({ params, request }) => {
+  const { postId } = params;
+  const data = await request.formData();
+  const submission = {
+    title: data.get("title"),
+    content: data.get("content"),
+    status: data.get("visibility"),
+  };
+
+  const token = localStorage.getItem("token");
+
+  const response = await fetch(`http://localhost:3000/api/v1/posts/${postId}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(submission),
+  });
+
+  if (!response.ok) {
+    const json = await response.json();
+
+    // Convert error message in array to make consistency in error handling
+
+    return response.status === 403 ? [json] : json.errors;
+  }
+
+  return redirect("/");
+};
+
+export { signUpAction, logInAction, createPostAction, editPostAction };
