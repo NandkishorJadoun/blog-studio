@@ -1,30 +1,36 @@
 import { Suspense, useState } from "react";
-import { useLoaderData, Await, Link, useAsyncValue } from "react-router";
+import {
+  useLoaderData,
+  Await,
+  Link,
+  useAsyncValue,
+  useFetcher,
+} from "react-router";
 
 function Post({ postData, type }) {
   const { id, title, createdAt, updatedAt } = postData;
-  const postTitle =
-    type === "public" ? (
-      <Link to={"the other frontend link" + id}>
-        <h4>{title}</h4>
-      </Link>
-    ) : (
-      <h4>{title}</h4>
-    );
 
+  const fetcher = useFetcher();
+  const isDeleting = fetcher.state !== "idle";
+
+  const postUrl = `client link/${id}`;
   const createTime = new Date(createdAt).toLocaleString();
   const updateTime = new Date(updatedAt).toLocaleString();
   const isUpdated = createTime !== updateTime;
 
   return (
     <div>
-      {postTitle}
+      <h4>{type === "public" ? <Link to={postUrl}>{title}</Link> : title}</h4>
       <p>Created At {createTime}</p>
       {isUpdated && <p>Updated At {updateTime}</p>}
       <div>
-        <Link to={`/posts/${id}`}>Update</Link>
+        <Link to={`/posts/${id}/edit`}>Edit</Link>
         <Link to={`/posts/${id}/comments`}>Comments</Link>
-        <button>{/* gonna be form */}Delete</button>
+        <fetcher.Form method="DELETE">
+          <button type="submit" name="postId" value={id} disabled={isDeleting}>
+            {isDeleting ? "DELETING" : "DELETE"}
+          </button>
+        </fetcher.Form>
       </div>
       <br />
     </div>
@@ -36,7 +42,9 @@ function PrivatePosts() {
   const { data: privatePostsArr } = resolvedPrivatePosts;
   return (
     <div>
-      {privatePostsArr.map((postData) => Post({ postData, type: "private" }))}
+      {privatePostsArr.map((postData) => (
+        <Post key={postData.id} postData={postData} type="private" />
+      ))}
     </div>
   );
 }
@@ -62,7 +70,9 @@ function HomePage() {
 
       {activeSection === 0 && (
         <div>
-          {publicPostsArr.map((postData) => Post({ postData, type: "public" }))}
+          {publicPostsArr.map((postData) => (
+            <Post key={postData.id} postData={postData} type="public" />
+          ))}
         </div>
       )}
 

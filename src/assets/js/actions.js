@@ -113,4 +113,31 @@ const editPostAction = async ({ params, request }) => {
   return redirect("/");
 };
 
-export { signUpAction, logInAction, createPostAction, editPostAction };
+const deletePostAction = async ({ request }) => {
+  const token = localStorage.getItem("token");
+  const data = await request.formData();
+  const postId = data.get("postId");
+
+  const response = await fetch(`http://localhost:3000/api/v1/posts/${postId}`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (!response.ok) {
+    const json = await response.json();
+    return { ok: false, msg: json.msg };
+  }
+
+  return { ok: true };
+};
+
+export {
+  signUpAction,
+  logInAction,
+  createPostAction,
+  editPostAction,
+  deletePostAction,
+};
