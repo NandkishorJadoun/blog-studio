@@ -1,39 +1,43 @@
+import { lazy } from "react";
+
 import AppLayout from "./AppLayout";
-import LogInPage from "./components/LoginPage";
-import SignUpPage from "./components/SignupPage";
 import HomePage from "./components/HomePage";
-import CreatePost from "./components/CreatePost";
-import EditPost from "./components/EditPost";
+const CreatePost = lazy(() => import("./components/CreatePost"));
+const EditPost = lazy(() => import("./components/EditPost"));
+const SignUpPage = lazy(() => import("./components/SignupPage"));
+const LogInPage = lazy(() => import("./components/LoginPage"));
+const EditPostLoadError = lazy(() => import("./components/EditPostLoadError"));
+
 import {
   signUpAction,
   logInAction,
   createPostAction,
   editPostAction,
+  deletePostAction,
 } from "./assets/js/actions";
-import { loadAuthorPosts, loadPostById } from "./assets/js/loaders";
 
-import EditPostLoadError from "./components/EditPostLoadError";
+import { loadAuthorPosts, loadPostById } from "./assets/js/loaders";
 
 const routes = [
   {
     path: "/",
-    element: <AppLayout />,
-    /* errorElement: <ErrorPage />, */
+    Component: AppLayout,
     children: [
       {
         index: true,
-        element: <HomePage />,
+        Component: HomePage,
         loader: loadAuthorPosts,
+        action: deletePostAction,
       },
       {
         path: "create",
-        element: <CreatePost />,
+        Component: CreatePost,
         action: createPostAction,
       },
       {
         path: "posts/:postId/edit",
-        element: <EditPost />,
-        errorElement: <EditPostLoadError/>,
+        Component: EditPost,
+        ErrorBoundary: EditPostLoadError,
         loader: loadPostById,
         action: editPostAction,
       },
@@ -41,12 +45,12 @@ const routes = [
   },
   {
     path: "/signup",
-    element: <SignUpPage />,
+    Component: SignUpPage,
     action: signUpAction,
   },
   {
     path: "/login",
-    element: <LogInPage />,
+    Component: LogInPage,
     action: logInAction,
   },
 ];
