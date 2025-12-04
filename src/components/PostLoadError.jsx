@@ -1,8 +1,8 @@
 import { useLoaderData } from "react-router";
 
-function EditPostLoadError() {
+function PostLoadError() {
   const error = useLoaderData();
   return <div>{error.msg}</div>;
 }
 
-export default EditPostLoadError;
+export default PostLoadError;
