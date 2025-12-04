@@ -6,7 +6,8 @@ const CreatePost = lazy(() => import("./components/CreatePost"));
 const EditPost = lazy(() => import("./components/EditPost"));
 const SignUpPage = lazy(() => import("./components/SignupPage"));
 const LogInPage = lazy(() => import("./components/LoginPage"));
-const EditPostLoadError = lazy(() => import("./components/EditPostLoadError"));
+const PostLoadError = lazy(() => import("./components/EditPostLoadError"));
+const PostComments = lazy(() => import("./components/PostComments"));
 
 import {
   signUpAction,
@@ -14,9 +15,14 @@ import {
   createPostAction,
   editPostAction,
   deletePostAction,
+  deleteCommentAction,
 } from "./assets/js/actions";
 
-import { loadAuthorPosts, loadPostById } from "./assets/js/loaders";
+import {
+  loadAuthorPosts,
+  loadPostById,
+  loadCommentsByPostId,
+} from "./assets/js/loaders";
 
 const routes = [
   {
@@ -37,9 +43,16 @@ const routes = [
       {
         path: "posts/:postId/edit",
         Component: EditPost,
-        ErrorBoundary: EditPostLoadError,
+        ErrorBoundary: PostLoadError,
         loader: loadPostById,
         action: editPostAction,
+      },
+      {
+        path: "posts/:postId/comments",
+        Component: PostComments,
+        ErrorBoundary: PostLoadError,
+        loader: loadCommentsByPostId,
+        action: deleteCommentAction,
       },
     ],
   },

@@ -134,10 +134,37 @@ const deletePostAction = async ({ request }) => {
   return { ok: true };
 };
 
+const deleteCommentAction = async ({ request }) => {
+  const token = localStorage.getItem("token");
+  const data = await request.formData();
+  const postId = data.get("postId");
+  const commentId = data.get("commentId");
+
+  const response = await fetch(
+    `http://localhost:3000/api/v1/posts/${postId}/comments/${commentId}`,
+    {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+
+  if (!response.ok) {
+    const json = await response.json();
+    const { msg } = json;
+    return { ok: false, msg };
+  }
+
+  return { ok: true };
+};
+
 export {
   signUpAction,
   logInAction,
   createPostAction,
   editPostAction,
   deletePostAction,
+  deleteCommentAction,
 };

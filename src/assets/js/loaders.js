@@ -24,7 +24,7 @@ const loadAuthorPosts = async () => {
 
 const loadPostById = async ({ params }) => {
   const token = localStorage.getItem("token");
-  
+
   if (!token) {
     throw redirect("/login");
   }
@@ -38,4 +38,21 @@ const loadPostById = async ({ params }) => {
   return data;
 };
 
-export { loadAuthorPosts, loadPostById };
+const loadCommentsByPostId = async ({ params }) => {
+  const token = localStorage.getItem("token");
+
+  if (!token) {
+    throw redirect("/login");
+  }
+
+  const { postId } = params;
+
+  const res = await fetch(
+    `http://localhost:3000/api/v1/posts/${postId}/comments`
+  );
+
+  const data = await res.json();
+  return data;
+};
+
+export { loadAuthorPosts, loadPostById, loadCommentsByPostId };
