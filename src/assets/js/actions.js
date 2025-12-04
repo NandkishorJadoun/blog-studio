@@ -1,4 +1,11 @@
 import { redirect } from "react-router";
+import { userContext } from "../../context";
+
+const API_BASE = "http://localhost:3000/api/v1";
+
+const jsonHeaders = {
+  "Content-Type": "application/json",
+};
 
 const signUpAction = async ({ request }) => {
   const data = await request.formData();
@@ -11,9 +18,9 @@ const signUpAction = async ({ request }) => {
     confirmPassword: data.get("confirmPassword"),
   };
 
-  const response = await fetch("http://localhost:3000/api/v1/accounts/signup", {
+  const response = await fetch(`${API_BASE}/accounts/signup`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: jsonHeaders,
     body: JSON.stringify(submission),
   });
 
@@ -33,9 +40,9 @@ const logInAction = async ({ request }) => {
     password: data.get("password"),
   };
 
-  const response = await fetch("http://localhost:3000/api/v1/accounts/login", {
+  const response = await fetch(`${API_BASE}/accounts/login`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: jsonHeaders,
     body: JSON.stringify(submission),
   });
 
@@ -56,8 +63,8 @@ const logInAction = async ({ request }) => {
   return redirect("/");
 };
 
-const createPostAction = async ({ request }) => {
-  const token = localStorage.getItem("token");
+const createPostAction = async ({ request, context }) => {
+  const token = context.get(userContext);
   const data = await request.formData();
   const submission = {
     title: data.get("title"),
@@ -65,10 +72,10 @@ const createPostAction = async ({ request }) => {
     status: data.get("visibility"),
   };
 
-  const response = await fetch("http://localhost:3000/api/v1/posts", {
+  const response = await fetch(`${API_BASE}/posts`, {
     method: "POST",
     headers: {
-      "Content-Type": "application/json",
+      ...jsonHeaders,
       Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify(submission),
@@ -82,7 +89,7 @@ const createPostAction = async ({ request }) => {
   return redirect("/");
 };
 
-const editPostAction = async ({ params, request }) => {
+const editPostAction = async ({ params, request, context }) => {
   const { postId } = params;
   const data = await request.formData();
   const submission = {
@@ -91,12 +98,12 @@ const editPostAction = async ({ params, request }) => {
     status: data.get("visibility"),
   };
 
-  const token = localStorage.getItem("token");
+  const token = context.get(userContext);
 
-  const response = await fetch(`http://localhost:3000/api/v1/posts/${postId}`, {
+  const response = await fetch(`${API_BASE}/posts/${postId}`, {
     method: "PUT",
     headers: {
-      "Content-Type": "application/json",
+      ...jsonHeaders,
       Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify(submission),
@@ -113,15 +120,15 @@ const editPostAction = async ({ params, request }) => {
   return redirect("/");
 };
 
-const deletePostAction = async ({ request }) => {
-  const token = localStorage.getItem("token");
+const deletePostAction = async ({ request, context }) => {
+  const token = context.get(userContext);
   const data = await request.formData();
   const postId = data.get("postId");
 
-  const response = await fetch(`http://localhost:3000/api/v1/posts/${postId}`, {
+  const response = await fetch(`${API_BASE}/posts/${postId}`, {
     method: "DELETE",
     headers: {
-      "Content-Type": "application/json",
+      ...jsonHeaders,
       Authorization: `Bearer ${token}`,
     },
   });
@@ -134,18 +141,18 @@ const deletePostAction = async ({ request }) => {
   return { ok: true };
 };
 
-const deleteCommentAction = async ({ request }) => {
-  const token = localStorage.getItem("token");
+const deleteCommentAction = async ({ request, context }) => {
+  const token = context.get(userContext);
   const data = await request.formData();
   const postId = data.get("postId");
   const commentId = data.get("commentId");
 
   const response = await fetch(
-    `http://localhost:3000/api/v1/posts/${postId}/comments/${commentId}`,
+    `${API_BASE}/posts/${postId}/comments/${commentId}`,
     {
       method: "DELETE",
       headers: {
-        "Content-Type": "application/json",
+        ...jsonHeaders,
         Authorization: `Bearer ${token}`,
       },
     }
@@ -153,8 +160,7 @@ const deleteCommentAction = async ({ request }) => {
 
   if (!response.ok) {
     const json = await response.json();
-    const { msg } = json;
-    return { ok: false, msg };
+    return { ok: false, msg: json.msg };
   }
 
   return { ok: true };
