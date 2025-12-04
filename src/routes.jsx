@@ -6,8 +6,10 @@ const CreatePost = lazy(() => import("./components/CreatePost"));
 const EditPost = lazy(() => import("./components/EditPost"));
 const SignUpPage = lazy(() => import("./components/SignupPage"));
 const LogInPage = lazy(() => import("./components/LoginPage"));
-const PostLoadError = lazy(() => import("./components/EditPostLoadError"));
+const PostLoadError = lazy(() => import("./components/PostLoadError"));
 const PostComments = lazy(() => import("./components/PostComments"));
+
+import authMiddleware from "./assets/js/authMiddleware";
 
 import {
   signUpAction,
@@ -28,6 +30,7 @@ const routes = [
   {
     path: "/",
     Component: AppLayout,
+    middleware: [authMiddleware],
     children: [
       {
         index: true,
