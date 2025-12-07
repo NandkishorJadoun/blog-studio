@@ -1,6 +1,6 @@
 import { userContext } from "./context";
 
-const API_BASE = "http://localhost:3000/api/v1";
+const API_BASE = "https://api-blogly.onrender.com";
 
 const loadAuthorPosts = async ({ context }) => {
   const token = context.get(userContext);
