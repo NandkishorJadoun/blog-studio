@@ -8,7 +8,7 @@ function LogInPage() {
   if (user) return <Navigate to={"/"} />;
 
   return (
-    <main className={`${styles.container} ${styles.main}`}>
+    <main className={styles.main}>
       <Form className={styles.form} method="post" action="/login">
         <p className={styles.formSection}>
           <label className={styles.label} htmlFor="email">

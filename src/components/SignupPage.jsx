@@ -8,7 +8,7 @@ function SignUpPage() {
   if (user) return <Navigate to={"/"} />;
 
   return (
-    <main className={`${styles.container} ${styles.main}`}>
+    <main className={styles.main}>
       <Form className={styles.form} method="post" action="/signup">
         <p className={styles.formSection}>
           <label className={styles.label} htmlFor="first-name">

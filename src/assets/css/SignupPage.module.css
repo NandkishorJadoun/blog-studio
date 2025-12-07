@@ -1,7 +1,3 @@
-.container {
-    composes: container from "./LoginPage.module.css"
-}
-
 .main {
     composes: main from "./LoginPage.module.css"
 }
