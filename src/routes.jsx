@@ -6,6 +6,7 @@ const CreatePost = lazy(() => import("./components/CreatePost"));
 const EditPost = lazy(() => import("./components/EditPost"));
 const SignUpPage = lazy(() => import("./components/SignupPage"));
 const LogInPage = lazy(() => import("./components/LoginPage"));
+const LogOut = lazy(() => import("./components/LogOut"));
 const PostLoadError = lazy(() => import("./components/PostLoadError"));
 const PostComments = lazy(() => import("./components/PostComments"));
 
@@ -68,6 +69,10 @@ const routes = [
     path: "/login",
     Component: LogInPage,
     action: logInAction,
+  },
+  {
+    path: "/logout",
+    Component: LogOut,
   },
 ];
 
