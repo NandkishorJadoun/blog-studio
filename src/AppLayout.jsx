@@ -1,13 +1,21 @@
 import { Link, Outlet } from "react-router";
+import styles from "./assets/css/AppLayout.module.css";
+
 function AppLayout() {
   return (
     <>
-      <header>
-        <h1>
-          <Link to={"/"}>Studio</Link>
-        </h1>
-        <Link to={"/create"}>Create</Link>
-        <Link to={"/logout"}>Logout</Link>
+      <header className={styles.header}>
+        <Link className={styles.headerLink} to={"/"}>
+          Studio
+        </Link>
+        <nav className={styles.nav}>
+          <Link className={styles.navLink} to={"/create"}>
+            Create
+          </Link>
+          <Link className={styles.navLink} to={"/logout"}>
+            Logout
+          </Link>
+        </nav>
       </header>
       <Outlet />
     </>
