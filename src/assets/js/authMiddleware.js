@@ -1,4 +1,4 @@
-import { userContext } from "../../context";
+import { userContext } from "./context";
 import { redirect } from "react-router";
 
 const authMiddleware = ({ context }) => {
