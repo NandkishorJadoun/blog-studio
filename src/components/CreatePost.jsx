@@ -8,10 +8,6 @@ function CreatePost() {
   const editorRef = useRef(null);
   const contentRef = useRef(null);
 
-  if (!localStorage.getItem("token")) {
-    return <Navigate to={"/login"} />;
-  }
-
   return (
     <main className={styles.container}>
       <Form
@@ -21,7 +17,7 @@ function CreatePost() {
           contentRef.current.value = editorRef.current.getContent();
         }}
       >
-        <p className={styles.formSection}>
+        <div className={styles.formSection}>
           <label className={styles.titleLabel} htmlFor="title">
             Title
           </label>
@@ -33,11 +29,11 @@ function CreatePost() {
             placeholder="What's on your mind?"
             required
           />
-        </p>
+        </div>
 
         <hr className={styles.separator} />
 
-        <p className={styles.editorContainer}>
+        <div className={styles.editorContainer}>
           <Editor
             apiKey="yf1z09h1xzcovvleh9v80y07181spwueku204st0ukxh32o5"
             onInit={(_evt, editor) => (editorRef.current = editor)}
@@ -60,7 +56,7 @@ function CreatePost() {
                 "body { font-family:Helvetica,Arial,sans-serif; font-size:14px; } ",
             }}
           />
-        </p>
+        </div>
 
         <input type="hidden" name="content" ref={contentRef} />
 
@@ -80,7 +76,7 @@ function CreatePost() {
 
         <fieldset className={styles.fieldset}>
           <legend className={styles.legend}>Post Visibility</legend>
-          <p>
+          <div>
             <input
               type="radio"
               name="visibility"
@@ -89,8 +85,9 @@ function CreatePost() {
               defaultChecked
             />
             <label htmlFor="public"> Public</label>
-          </p>
-          <p>
+          </div>
+
+          <div>
             <input
               type="radio"
               name="visibility"
@@ -98,7 +95,7 @@ function CreatePost() {
               id="private"
             />
             <label htmlFor="private"> Private</label>
-          </p>
+          </div>
         </fieldset>
 
         <hr className={styles.separator} />

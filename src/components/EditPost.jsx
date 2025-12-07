@@ -1,6 +1,7 @@
 import { useLoaderData, useActionData, Form } from "react-router";
 import { useRef } from "react";
 import { Editor } from "@tinymce/tinymce-react";
+import styles from "../assets/css/CreatePost.module.css";
 
 function EditPost() {
   const { data } = useLoaderData();
@@ -8,10 +9,8 @@ function EditPost() {
   const editorRef = useRef(null);
   const contentRef = useRef(null);
 
-  console.log(errorData);
-
   return (
-    <main>
+    <main className={styles.container}>
       <Form
         method="PUT"
         action={`/posts/${data.id}/edit`}
@@ -19,18 +18,23 @@ function EditPost() {
           contentRef.current.value = editorRef.current.getContent();
         }}
       >
-        <p>
-          <label htmlFor="title">Title</label>
+        <div className={styles.formSection}>
+          <label className={styles.titleLabel} htmlFor="title">
+            Title
+          </label>
           <input
+            className={styles.titleInput}
             type="text"
             name="title"
             id="title"
             defaultValue={data.title}
             required
           />
-        </p>
+        </div>
 
-        <p>
+        <hr className={styles.separator} />
+
+        <div className={styles.editorContainer}>
           <Editor
             apiKey="yf1z09h1xzcovvleh9v80y07181spwueku204st0ukxh32o5"
             onInit={(_evt, editor) => (editorRef.current = editor)}
@@ -38,7 +42,7 @@ function EditPost() {
             plugins={"wordcount"}
             init={{
               width: "100%",
-              height: 500,
+              height: "600px",
               menubar: false,
               branding: false,
               paste_data_images: false,
@@ -51,13 +55,27 @@ function EditPost() {
                 "body { font-family:Helvetica,Arial,sans-serif; font-size:14px; }",
             }}
           />
-        </p>
+        </div>
 
         <input type="hidden" name="content" ref={contentRef} />
 
-        <fieldset>
-          <legend>Post Visibility:</legend>
-          <p>
+        {errorData && (
+          <>
+            <hr className={styles.separator} />
+
+            <ul className={styles.errList}>
+              {errorData.map((err) => (
+                <li>{err.msg}</li>
+              ))}
+            </ul>
+          </>
+        )}
+
+        <hr className={styles.separator} />
+
+        <fieldset className={styles.fieldset}>
+          <legend className={styles.legend}>Post Visibility</legend>
+          <div>
             <input
               type="radio"
               name="visibility"
@@ -65,28 +83,25 @@ function EditPost() {
               id="public"
               defaultChecked
             />
-            <label htmlFor="public">Public</label>
-          </p>
-          <p>
+            <label htmlFor="public"> Public</label>
+          </div>
+
+          <div>
             <input
               type="radio"
               name="visibility"
               value="PRIVATE"
               id="private"
             />
-            <label htmlFor="private">Private</label>
-          </p>
+            <label htmlFor="private"> Private</label>
+          </div>
         </fieldset>
 
-        {errorData && (
-          <ul>
-            {errorData.map((err) => (
-              <li>{err.msg}</li>
-            ))}
-          </ul>
-        )}
+        <hr className={styles.separator} />
 
-        <button type="submit">Update Post</button>
+        <button className={styles.submitBtn} type="submit">
+          Update Post
+        </button>
       </Form>
     </main>
   );
