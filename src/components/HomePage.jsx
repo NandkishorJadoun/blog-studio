@@ -73,7 +73,7 @@ function Post({ postData, type }) {
   const fetcher = useFetcher();
   const isDeleting = fetcher.state !== "idle";
 
-  const postUrl = `client link/${id}`;
+  const postUrl = `https://blogly.pages.dev/posts/${id}`;
   const createTime = new Date(createdAt).toLocaleString();
   const updateTime = new Date(updatedAt).toLocaleString();
   const isUpdated = createTime !== updateTime;
