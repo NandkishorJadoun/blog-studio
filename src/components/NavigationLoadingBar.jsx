@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 import { useNavigation } from "react-router";
 import LoadingBar from "react-top-loading-bar";
 
-export function NavigationLoadingBar() {
+function NavigationLoadingBar() {
   const navigation = useNavigation();
   const ref = useRef(null);
 
@@ -27,3 +27,5 @@ export function NavigationLoadingBar() {
     />
   );
 }
+
+export default NavigationLoadingBar;
