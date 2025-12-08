@@ -18,7 +18,7 @@ const signUpAction = async ({ request }) => {
     confirmPassword: data.get("confirmPassword"),
   };
 
-  const response = await fetch(`${API_BASE}/accounts/signup`, {
+  const response = await fetch(`${API_BASE}/api/v1/accounts/signup`, {
     method: "POST",
     headers: jsonHeaders,
     body: JSON.stringify(submission),
@@ -40,7 +40,7 @@ const logInAction = async ({ request }) => {
     password: data.get("password"),
   };
 
-  const response = await fetch(`${API_BASE}/accounts/login`, {
+  const response = await fetch(`${API_BASE}/api/v1/accounts/login`, {
     method: "POST",
     headers: jsonHeaders,
     body: JSON.stringify(submission),
@@ -72,7 +72,7 @@ const createPostAction = async ({ request, context }) => {
     status: data.get("visibility"),
   };
 
-  const response = await fetch(`${API_BASE}/posts`, {
+  const response = await fetch(`${API_BASE}/api/v1/posts`, {
     method: "POST",
     headers: {
       ...jsonHeaders,
@@ -100,7 +100,7 @@ const editPostAction = async ({ params, request, context }) => {
 
   const token = context.get(userContext);
 
-  const response = await fetch(`${API_BASE}/posts/${postId}`, {
+  const response = await fetch(`${API_BASE}/api/v1/posts/${postId}`, {
     method: "PUT",
     headers: {
       ...jsonHeaders,
@@ -125,7 +125,7 @@ const deletePostAction = async ({ request, context }) => {
   const data = await request.formData();
   const postId = data.get("postId");
 
-  const response = await fetch(`${API_BASE}/posts/${postId}`, {
+  const response = await fetch(`${API_BASE}/api/v1/posts/${postId}`, {
     method: "DELETE",
     headers: {
       ...jsonHeaders,
@@ -148,7 +148,7 @@ const deleteCommentAction = async ({ request, context }) => {
   const commentId = data.get("commentId");
 
   const response = await fetch(
-    `${API_BASE}/posts/${postId}/comments/${commentId}`,
+    `${API_BASE}/api/v1/posts/${postId}/comments/${commentId}`,
     {
       method: "DELETE",
       headers: {

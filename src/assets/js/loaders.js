@@ -4,13 +4,13 @@ const API_BASE = "https://api-blogly.onrender.com";
 
 const loadAuthorPosts = async ({ context }) => {
   const token = context.get(userContext);
-  const publicPostsRes = await fetch(`${API_BASE}/posts/author?type=PUBLIC`, {
+  const publicPostsRes = await fetch(`${API_BASE}/api/v1/posts/author?type=PUBLIC`, {
     headers: { Authorization: `Bearer ${token}` },
   });
 
   const publicPosts = await publicPostsRes.json();
 
-  const privatePostsPromise = fetch(`${API_BASE}/posts/author?type=PRIVATE`, {
+  const privatePostsPromise = fetch(`${API_BASE}/api/v1/posts/author?type=PRIVATE`, {
     headers: { Authorization: `Bearer ${token}` },
   }).then((r) => r.json());
 
@@ -19,7 +19,7 @@ const loadAuthorPosts = async ({ context }) => {
 
 const loadPostById = async ({ params }) => {
   const { postId } = params;
-  const postResponse = await fetch(`${API_BASE}/posts/${postId}`);
+  const postResponse = await fetch(`${API_BASE}/api/v1/posts/${postId}`);
 
   return await postResponse.json();
 };
@@ -27,7 +27,7 @@ const loadPostById = async ({ params }) => {
 const loadCommentsByPostId = async ({ params }) => {
   const { postId } = params;
 
-  const res = await fetch(`${API_BASE}/posts/${postId}/comments`);
+  const res = await fetch(`${API_BASE}/api/v1/posts/${postId}/comments`);
 
   return await res.json();
 };
