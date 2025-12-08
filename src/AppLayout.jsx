@@ -1,9 +1,11 @@
 import { Link, Outlet } from "react-router";
 import styles from "./assets/css/AppLayout.module.css";
+import { NavigationLoadingBar } from "./NavigationLoadingBar";
 
 function AppLayout() {
   return (
     <>
+      <NavigationLoadingBar />
       <header className={styles.header}>
         <Link className={styles.headerLink} to={"/"}>
           Studio
