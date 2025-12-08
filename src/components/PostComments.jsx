@@ -24,7 +24,7 @@ function Comment({ comment }) {
 
   const { id, postId, content, createdAt, updatedAt, authorId } = comment;
 
-  const userUrl = `someUrl/${authorId}`;
+  const userUrl = `https://blogly.pages.dev/users/${authorId}`;
   const createTime = new Date(createdAt).toLocaleString();
   const updateTime = new Date(updatedAt).toLocaleString();
   const isUpdated = createTime !== updateTime;
