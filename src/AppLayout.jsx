@@ -6,7 +6,7 @@ import NavigationLoadingBar from "./components/NavigationLoadingBar";
 function AppLayout() {
   return (
     <>
-      /* <NavigationLoadingBar /> */
+      <NavigationLoadingBar />
       <header className={styles.header}>
         <Link className={styles.headerLink} to={"/"}>
           Studio
